@@ -8,15 +8,22 @@
     padding: 12px 32px;
     box-shadow: $elevation-1;
 
-    &:hover, &:active {
-        background: darken($color: $color1, $amount: 5%);
+    &:disabled {
+        background: grey;
     }
 
-    &:hover {
-        box-shadow: $elevation-2;
+    &:not(:disabled) {
+        &:hover, &:active {
+            background: darken($color: $color1, $amount: 5%);
+        }
+    
+        &:hover {
+            box-shadow: $elevation-2;
+        }
+    
+        &:active {
+            box-shadow: $elevation-1 !important;
+        }
     }
 
-    &:active {
-        box-shadow: $elevation-1 !important;
-    }
 }

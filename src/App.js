@@ -6,18 +6,18 @@ import './App.scss';
 export default class App extends React.Component {
     formSchema = [
         {
-        field: 'name',
-        label: 'Name'
+            name: 'name',
+            label: 'Name'
         },
         {
-        field: 'email',
-        label: 'Email',
-        type: 'email'
+            name: 'email',
+            label: 'Email',
+            type: 'email'
         },
         {
-        field: 'funfact',
-        label: 'Fun Fact',
-        multi: true
+            name: 'funfact',
+            label: 'Fun Fact',
+            multi: true
         }
     ];
 
@@ -33,10 +33,15 @@ export default class App extends React.Component {
         });
     }
 
-    submit = async (form) => {
+    submit = async (values) => {
+        this.form.current.setActive(false);
+
         const url = 'https://hack-uci-test-endpoint.herokuapp.com';
-        const { name, email, funfact } = form;
+        const { name, email, funfact } = values;
         const res = await fetch(`${url}/test?name=${name}&email=${email}&funfact=${funfact}`);
+
+        this.form.current.setActive(true);
+
         if (res.ok) {
             this.form.current.clear();
             toast.success('Success. Thank you for applying!');

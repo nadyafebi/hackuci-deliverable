@@ -8,18 +8,23 @@ export default class Form extends React.Component {
     constructor(props) {
         super(props);
 
-        if (!props.schema) {
-            props.schema = [];
-        }
+        this.state = {
+            disabled: false,
+            values: {}
+        };
 
-        this.state = {};
         for (const field of props.schema) {
-            this.state[field.field] = '';
+            this.state.values[field.name] = '';
         }
     }
 
-    onInputChange = (field, value) => {
-        this.setState({ [field]: value })
+    onInputChange = (name, value) => {
+        this.setState(prevState => ({
+            values: {
+                ...prevState.values,
+                [name]: value
+            }
+        }));
     }
 
     submit = () => {
@@ -29,11 +34,15 @@ export default class Form extends React.Component {
     }
 
     clear = () => {
-        const newState = {};
+        const newState = { disabled: false };
         for (const field of this.props.schema) {
             newState[field.field] = '';
         }
         this.setState(newState);
+    }
+
+    setActive = (enable) => {
+        this.setState({ disabled: !enable });
     }
 
     render() {
@@ -44,10 +53,11 @@ export default class Form extends React.Component {
                 {
                     this.props.schema.map(field => (
                         <Input
-                            key={field.field}
-                            value={this.state[field.field]}
+                            key={field.name}
+                            name={field.name}
+                            value={this.state.values[field.name]}
                             onChange={this.onInputChange}
-                            field={field.field}
+                            disabled={this.state.disabled}
                             label={field.label}
                             type={field.type}
                             multi={field.multi}
@@ -56,7 +66,12 @@ export default class Form extends React.Component {
                     ))
                 }
 
-                <Button onClick={this.submit} text="Submit" className="submit-button" />
+                <Button
+                    onClick={this.submit} 
+                    disabled={this.state.disabled}
+                    text="Submit"
+                    className="submit-button"
+                />
             </div>
         );
     }

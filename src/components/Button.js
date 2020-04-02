@@ -12,7 +12,8 @@ export default class Button extends React.Component {
     render() {
         return (
             <button 
-                onClick={this.handleClick} 
+                onClick={this.handleClick}
+                disabled={this.props.disabled}
                 className={['button', this.props.className].join(' ')}
             >
                 {this.props.text}
