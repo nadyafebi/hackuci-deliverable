@@ -20,6 +20,7 @@ export default class Input extends React.Component {
         // If required, check if user input value.
         if (this.props.required && !this.props.value) {
             this.setValidity(false, 'Please fill out this field.');
+            return;
         }
         this.checkValidity();
     }
