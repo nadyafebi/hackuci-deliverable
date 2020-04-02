@@ -12,4 +12,4 @@ Note: I did not use any front-end CSS framework since I think the website is sim
 
 **Mobile**
 
-![mobile](https://github.com/nadyafebi/hackuci-deliverable/raw/master/screenshot_mobile.png)
+<center><img src="https://github.com/nadyafebi/hackuci-deliverable/raw/master/screenshot_mobile.png" width="300"></center>
