@@ -10,11 +10,13 @@ export default class Form extends React.Component {
 
         this.state = {
             disabled: false,
-            values: {}
+            values: {},
+            valid: {}
         };
 
         for (const field of props.schema) {
             this.state.values[field.name] = '';
+            this.state.valid[field.name] = !field.required;
         }
     }
 
@@ -27,9 +29,18 @@ export default class Form extends React.Component {
         }));
     }
 
+    onValidityChange = (name, valid) => {
+        this.setState(prevState => ({
+            valid: {
+                ...prevState.valid,
+                [name]: valid
+            }
+        }));
+    }
+
     submit = () => {
         if (this.props.onSubmit) {
-            this.props.onSubmit(this.state);
+            this.props.onSubmit(this.state.values);
         }
     }
 
@@ -46,6 +57,15 @@ export default class Form extends React.Component {
     }
 
     render() {
+        // Check if the fields are valid.
+        let submittable = true;
+        for (const field in this.state.valid) {
+            if (!this.state.valid[field]) {
+                submittable = false;
+                break;
+            }
+        }
+
         return (
             <div className={["card", this.props.className].join(' ')}>
                 <h2 className="title">{this.props.title}</h2>
@@ -57,10 +77,13 @@ export default class Form extends React.Component {
                             name={field.name}
                             value={this.state.values[field.name]}
                             onChange={this.onInputChange}
+                            onValidityChange={this.onValidityChange}
                             disabled={this.state.disabled}
                             label={field.label}
                             type={field.type}
                             multi={field.multi}
+                            required={field.required}
+                            validFn={field.validFn}
                             className="input" 
                         />
                     ))
@@ -68,7 +91,7 @@ export default class Form extends React.Component {
 
                 <Button
                     onClick={this.submit} 
-                    disabled={this.state.disabled}
+                    disabled={this.state.disabled || !submittable}
                     text="Submit"
                     className="submit-button"
                 />
