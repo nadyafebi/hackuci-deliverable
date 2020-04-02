@@ -13,7 +13,7 @@ export default class Button extends React.Component {
         return (
             <button 
                 onClick={this.handleClick} 
-                className={this.props.className}
+                className={['button', this.props.className].join(' ')}
             >
                 {this.props.text}
             </button>

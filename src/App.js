@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import Form from './components/Form';
 import './App.scss';
 
@@ -22,7 +23,14 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.form = React.createRef();
+
+        toast.configure({
+            autoClose: 3000,
+            hideProgressBar: true,
+            toastClassName: 'toast'
+        });
     }
 
     submit = async (form) => {
@@ -30,14 +38,16 @@ export default class App extends React.Component {
         const { name, email, funfact } = form;
         const res = await fetch(`${url}/test?name=${name}&email=${email}&funfact=${funfact}`);
         if (res.ok) {
-            alert('Success! Thank you for applying.');
             this.form.current.clear();
+            toast.success('Success. Thank you for applying!');
         } else {
             const text = await res.text();
             if (text.includes('email')) {
-                alert('Invalid email address!');
+                toast.error('Invalid email address!');
+            } else if (text.includes('parameter')) {
+                toast.error('Please fill out all the form fields!');
             } else {
-                alert('Something is wrong! Please try again.')
+                toast.error('Something is wrong! Please try again.');
             }
         }
     }
