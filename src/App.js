@@ -8,7 +8,7 @@ function App() {
         Form
       </div>
       <div>
-        Image
+        <img src="/petr.png" alt="petr" className="petr" />
       </div>
     </div>
   );

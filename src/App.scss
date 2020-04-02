@@ -26,3 +26,18 @@ $color2: #ff6c81;
     justify-content: center;
   }
 }
+
+.petr {
+  height: 200px;
+  animation: jump 1s infinite;
+
+  @keyframes jump {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    62% {
+      transform: translateY(-75px);
+    }
+  }
+}
