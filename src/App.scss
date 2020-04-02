@@ -1,43 +1,49 @@
-$color1: #ff7b5c;
-$color2: #ff6c81;
+@import './vars';
 
 .app {
-  height: 100%;
-  width: 100%;
-  display: flex;
-
-  // Mobile
-  @media (max-width: 640px) {
-    flex-direction: column;
-    background: linear-gradient($color1, $color2);
-  }
-
-  // Desktop
-  @media (min-width: 640px) {
-    flex-direction: row;
-    background: linear-gradient(90deg, $color1, $color2);
-  }
-
-  div {
     height: 100%;
-    flex: 1;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+
+    > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+    }
+
+    // Mobile
+    @media (max-width: 640px) {
+        flex-direction: column;
+
+        .form {
+            margin: 32px;
+        }
+    }
+
+    // Desktop
+    @media (min-width: 640px) {
+        flex-direction: row;
+
+        .form {
+            margin: 12.5vw;
+        }
+    }
 }
 
 .petr {
-  height: 200px;
-  animation: jump 1s infinite;
+    height: 200px;
+    animation: jump 1s infinite;
+    margin-top: 75px;
 
-  @keyframes jump {
-    0%, 100% {
-      transform: translateY(0);
-    }
+    @keyframes jump {
+        0%,
+        100% {
+        transform: translateY(0);
+        }
 
-    62% {
-      transform: translateY(-75px);
+        62% {
+        transform: translateY(-75px);
+        }
     }
-  }
 }
