@@ -7,17 +7,27 @@ export default class App extends React.Component {
     formSchema = [
         {
             name: 'name',
-            label: 'Name'
+            label: 'Name',
+            required: true
         },
         {
             name: 'email',
             label: 'Email',
-            type: 'email'
+            type: 'email',
+            required: true,
+            validFn: (value) => {
+                const pattern = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                return {
+                    valid: pattern.test(value),
+                    message: 'Invalid email.'
+                };
+            }
         },
         {
             name: 'funfact',
             label: 'Fun Fact',
-            multi: true
+            multi: true,
+            required: true
         }
     ];
 
@@ -36,9 +46,12 @@ export default class App extends React.Component {
     submit = async (values) => {
         this.form.current.setActive(false);
 
-        const url = 'https://hack-uci-test-endpoint.herokuapp.com';
-        const { name, email, funfact } = values;
-        const res = await fetch(`${url}/test?name=${name}&email=${email}&funfact=${funfact}`);
+        const url = 'https://hack-uci-test-endpoint.herokuapp.com/test';
+        const params = new URLSearchParams();
+        for (const field in values) {
+            params.append(field, values[field]);
+        }
+        const res = await fetch(`${url}?${params}`);
 
         this.form.current.setActive(true);
 
